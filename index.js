@@ -55,7 +55,7 @@ async function run() {
 
       // Insert New Products Api data //
       app.post('/product', async (req, res) => {
-        const leads = req.body;
+        const product = req.body;
         const result = await addProducts.insertOne(product);
         return res.send({ success: true, result });
     });
