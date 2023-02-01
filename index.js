@@ -20,6 +20,7 @@ async function run() {
     await client.connect();
     const salesLeadCollection = client.db('information-center').collection('sales-lead');
     const adminCollection = client.db('information-center').collection('admin');
+    const addProducts = client.db('information-center').collection('add-products');
 
     // Get Admin Api data //
     app.get('/admin', async (req, res) => {
@@ -41,6 +42,21 @@ async function run() {
       app.post('/leads', async (req, res) => {
         const leads = req.body;
         const result = await salesLeadCollection.insertOne(leads);
+        return res.send({ success: true, result });
+    });
+
+    // Get Products Api data //
+    app.get('/product', async (req, res) => {
+      const query = {};
+      const cursor = addProducts.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+      // Insert New Products Api data //
+      app.post('/product', async (req, res) => {
+        const leads = req.body;
+        const result = await addProducts.insertOne(product);
         return res.send({ success: true, result });
     });
 
