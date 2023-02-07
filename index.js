@@ -60,6 +60,27 @@ async function run() {
         return res.send({ success: true, result });
     });
 
+    // Delete Products Api data server //
+    app.delete('/product/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const result = await addProducts.deleteOne(query);
+      res.send(result);
+  });
+
+  // Update Api data server//
+  app.put('/product/:id', async (req, res) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const filter = { _id: ObjectId(id) };
+    const options = { upsert: true };
+    const updateDoc = { 
+        $set:updatedData
+     };
+    const result = await addProducts.updateOne(filter, updateDoc, options);
+    res.send(result);
+  });
+
 
   }
 
